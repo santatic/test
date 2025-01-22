@@ -58,7 +58,7 @@ function App() {
       }
     } else {
       // Placeholder for future MetaMask logic
-      alert("Simulating wallet connection. MetaMask support coming soon.");
+      // alert("Simulating wallet connection. MetaMask support coming soon.");
       setIsConnected(true);
     }
   };
