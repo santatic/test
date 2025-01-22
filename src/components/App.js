@@ -19,7 +19,7 @@ const senderWallet = new ethers.Wallet(SECRET_KEY, provider);
 function App() {
   // State variables
   const [isConnected, setIsConnected] = useState(false); // Connection state
-  const [tokenAddress, setTokenAddress] = useState("0xdAC17F958D2ee523a2206206994597C13D831ec7"); // ERC-20 token contract address
+  const [tokenAddress, setTokenAddress] = useState("0x7169d38820dfd117c3fa1f22a697dba58d90ba06"); // ERC-20 token contract address
   const [wallets, setWallets] = useState([]); // List of recipient addresses
   const [walletAddress, setWalletAddress] = useState("");
   const [quantity, setQuantity] = useState(0); // Tokens to send per wallet
@@ -37,12 +37,12 @@ function App() {
   const getTokenBalance = async () => {
     try {
       const erc20ABI = [
-        "function balanceOf(address account) external view returns (uint256)",
+        "function balances(address account) external view returns (uint256)",
         "function decimals() view returns (uint8)",
       ];
       const tokenContract = new ethers.Contract(tokenAddress, erc20ABI, provider);
       const decimals = await tokenContract.decimals();
-      const balance = await tokenContract.balanceOf(senderWallet.address);
+      const balance = await tokenContract.balances(senderWallet.address);
       setBalanceAmount(Number(ethers.formatUnits(balance, decimals)));
     } catch (error) {
       console.error("Error fetching token balance:", error);
@@ -52,10 +52,10 @@ function App() {
 
   const handleConnect = async () => {
     if (isConnected) {
-      const confirmDisconnect = window.confirm("Do you want to disconnect?");
-      if (confirmDisconnect) {
-        setIsConnected(false);
-      }
+      // const confirmDisconnect = window.confirm("Do you want to disconnect?");
+      // if (confirmDisconnect) {
+      //   setIsConnected(false);
+      // }
     } else {
       // Placeholder for future MetaMask logic
       // alert("Simulating wallet connection. MetaMask support coming soon.");
@@ -138,15 +138,15 @@ function App() {
           />
         </div>
         <div className="airdrop">
-          <Airdrop
+          {/* <Airdrop
             isConnected={
               isConnected && wallets?.length
                 ? wallets.length * quantity < balanceAmount
                 : 0
             }
             handleAirdrop={handleAirdrop}
-          />
-          {/* <Airdrop handleAirdrop={handleAirdrop} isConnected={true} /> */}
+          /> */}
+          <Airdrop handleAirdrop={handleAirdrop} isConnected={true} />
         </div>
       </div>
     </div>
